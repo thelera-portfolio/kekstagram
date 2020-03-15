@@ -43,38 +43,37 @@
 
   effectLevel.classList.add('hidden');
 
-  var effectClickHandler = function (effect) {
-    window.effect.setDepth = function (depth) {
-      if (effect === 'none') {
-        imageUpload.style.filter = effectsMap[effect].name;
-      } else {
-        imageUpload.style.filter = effectsMap[effect].name + '(' + (depth * effectsMap[effect].maxValue / 100) + effectsMap[effect].unit + ')';
-      }
-    };
-
-    var effectName = 'effects__preview--' + effect;
+  var effectClickHandler = function (evt) {
+    var effectName = 'effects__preview--' + evt.target.value;
     imageUpload.removeAttribute('class');
     imageUpload.classList.add(effectName);
 
-    if (effect === 'none') {
+    if (evt.target.value === 'none') {
       effectLevel.classList.add('hidden');
     } else {
       effectLevel.classList.remove('hidden');
     }
 
-    window.effect.setDepth(ENTRY_LEVEL_DEPTH);
-    window.slider.setEffectLevel(ENTRY_LEVEL_DEPTH);
+    window.effect.setDepth(ENTRY_LEVEL_DEPTH, evt.target.value);
+    window.slider.setEffectLevel(ENTRY_LEVEL_DEPTH, evt.target.value);
   };
 
   effectButtons.forEach(function (button) {
-    button.addEventListener('click', function () {
-      effectClickHandler(button.value);
+    button.addEventListener('click', function (evt) {
+      effectClickHandler(evt);
     });
   });
 
   window.effect = {
     reset: function () {
       effectButtons[0].click();
+    },
+    setDepth: function (depth, effect) {
+      if (effect === 'none') {
+        imageUpload.style.filter = effectsMap[effect].name;
+      } else {
+        imageUpload.style.filter = effectsMap[effect].name + '(' + (depth * effectsMap[effect].maxValue / 100) + effectsMap[effect].unit + ')';
+      }
     }
   };
 })();

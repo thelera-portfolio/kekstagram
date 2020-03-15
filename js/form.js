@@ -29,7 +29,7 @@
   var errorPopupCloseButton = errorTemplate.querySelector('.error__button');
 
   // валидация формы
-  var isTagInvalid = function (tag, index, tags) {
+  var validateTag = function (tag, index, tags) {
     var validationMessage = '';
 
     if (tags.length > Hashtag.MAX_QUANTITY) {
@@ -48,16 +48,21 @@
       validationMessage = '';
     }
 
-    hashtagInput.setCustomValidity(validationMessage);
-
-    return validationMessage !== '';
+    return validationMessage;
   };
 
   hashtagInput.addEventListener('input', function () {
     var hashtags = hashtagInput.value.toLowerCase().split(' ');
 
     hashtagInput.removeAttribute('style');
-    hashtags.find(isTagInvalid);
+    for (var i = 0; i < hashtags.length; i++) {
+      var validationMessage = validateTag(hashtags[i], i, hashtags);
+      if (validationMessage.length > 0) {
+        break;
+      }
+    }
+
+    hashtagInput.setCustomValidity(validationMessage);
   });
 
   commentInput.addEventListener('input', function () {

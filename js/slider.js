@@ -5,6 +5,7 @@
   var effectLevelValue = document.querySelector('.effect-level__value');
   var effectLevelDepthLine = document.querySelector('.effect-level__depth');
   var effectLevelLine = document.querySelector('.effect-level__line');
+  var effectButtons = document.querySelectorAll('.effects__radio');
   var lineLength = effectLevelLine.offsetWidth;
 
   effectLevelPin.addEventListener('mousedown', function (evt) {
@@ -25,7 +26,12 @@
       effectLevelPin.style.left = (pinOffsetLeft + shift) + 'px';
       effectLevelDepthLine.style.width = pinOffsetLeft + 'px';
       effectLevel = Math.round((pinOffsetLeft + shift) / lineLength * 100) + '';
-      window.effect.setDepth(effectLevel);
+
+      var selectedButton = Array.from(effectButtons).find(function (button) {
+        return button.checked;
+      });
+
+      window.effect.setDepth(effectLevel, selectedButton.value);
 
       if (pinOffsetLeft < 0) {
         effectLevelPin.style.left = '0px';
