@@ -3,11 +3,11 @@
 // отрисовка увеличенного изображения
 (function () {
   var MAX_COMMENTS_QUANTITY = 5;
+  var SHOWED_COMMENTS_MATCH_EXPRESSION = /^\S+/;
 
   var bigPicture = document.querySelector('.big-picture');
-  var bigPictureImage = bigPicture.querySelector('.big-picture__img').querySelector('img');
+  var bigPictureImage = bigPicture.querySelector('.big-picture__img img');
   var bigPictureLikes = bigPicture.querySelector('.likes-count');
-  var bigPictureComments = bigPicture.querySelector('.comments-count');
   var bigPictureSocialComments = bigPicture.querySelector('.social__comments');
   var bigPictureSocialCommentsCount = bigPicture.querySelector('.social__comment-count');
   var bigPictureSocialCaption = bigPicture.querySelector('.social__caption');
@@ -47,13 +47,25 @@
     }
   };
 
+  var changeShowedCommentsQuantity = function (showedComments) {
+    var commentText = bigPictureSocialCommentsCount.innerHTML;
+    bigPictureSocialCommentsCount.innerHTML = commentText.replace(SHOWED_COMMENTS_MATCH_EXPRESSION, showedComments);
+  };
+
   window.bigPicture = {
     create: function (picture) {
+      var bigPictureComments = bigPicture.querySelector('.comments-count');
+
       bigPicture.classList.remove('hidden');
       bigPictureMoreComments.classList.remove('hidden');
       bigPictureImage.src = picture.url;
       bigPictureLikes.textContent = picture.likes;
       bigPictureComments.textContent = picture.comments.length;
+      if (picture.comments.length < MAX_COMMENTS_QUANTITY) {
+        changeShowedCommentsQuantity(picture.comments.length);
+      } else {
+        changeShowedCommentsQuantity(MAX_COMMENTS_QUANTITY);
+      }
 
       // обработчики закрытия окна и нажатия на кнопку 'загрузить еще комментарии'
       var bigPictureCloseButtonHandler = function () {
@@ -79,6 +91,8 @@
       var moreCommentsButtonHandler = function () {
         var commentStartIndex = bigPictureSocialComments.children.length;
         showComments(picture, commentStartIndex);
+        var showedComments = bigPictureSocialComments.children.length;
+        changeShowedCommentsQuantity(showedComments);
       };
 
       document.body.classList.add('modal-open');
@@ -90,7 +104,6 @@
       showComments(picture, 0);
 
       bigPictureSocialCaption.textContent = picture.description;
-      bigPictureSocialCommentsCount.classList.add('hidden');
 
       bigPictureCloseButton.addEventListener('click', bigPictureCloseButtonHandler);
       document.addEventListener('keydown', bigPictureEscButtonHandler);

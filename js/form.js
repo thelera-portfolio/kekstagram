@@ -117,11 +117,6 @@
   var errorPopupCloseButtonHandler = function () {
     mainContent.removeChild(errorPopup);
 
-    uploadFile.value = '';
-    imageUploadForm.reset();
-    window.scale.reset();
-    window.effect.reset();
-
     document.removeEventListener('click', errorPopupClickHandler);
     document.removeEventListener('keydown', errorPopupEscButtonHandler);
     document.removeEventListener('click', errorPopupCloseButtonHandler);
@@ -146,14 +141,14 @@
     errorMessage.textContent = ERROR_MESSAGE + message;
     mainContent.appendChild(errorPopup);
 
-    document.addEventListener('click', errorPopupClickHandler);
-    document.addEventListener('keydown', errorPopupEscButtonHandler);
-    errorPopupCloseButton.addEventListener('click', errorPopupCloseButtonHandler);
-
     uploadFile.value = '';
     imageUploadForm.reset();
     window.scale.reset();
     window.effect.reset();
+
+    document.addEventListener('click', errorPopupClickHandler);
+    document.addEventListener('keydown', errorPopupEscButtonHandler);
+    errorPopupCloseButton.addEventListener('click', errorPopupCloseButtonHandler);
   };
 
   // отправка данных на сервер с помощью AJAX
@@ -170,4 +165,13 @@
 
   hashtagInput.addEventListener('invalid', addErrorBorderHandler);
   commentInput.addEventListener('invalid', addErrorBorderHandler);
+
+  window.form = {
+    reset: function () {
+      hashtagInput.setCustomValidity('');
+      hashtagInput.removeAttribute('style');
+      commentInput.setCustomValidity('');
+      commentInput.removeAttribute('style');
+    }
+  };
 })();

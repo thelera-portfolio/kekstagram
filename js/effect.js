@@ -38,7 +38,7 @@
   };
 
   var effectButtons = document.querySelectorAll('.effects__radio');
-  var imageUpload = document.querySelector('.img-upload__preview').querySelector('img');
+  var imageUpload = document.querySelector('.img-upload__preview img');
   var effectLevel = document.querySelector('.img-upload__effect-level');
 
   effectLevel.classList.add('hidden');

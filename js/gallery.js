@@ -9,6 +9,27 @@
   var discussedFilter = document.querySelector('#filter-discussed');
   var pictures;
 
+  var bigPictureOpenHandler = function (evt) {
+    if (evt.target.classList.contains('picture')) {
+      var clickedPhoto = evt.target;
+    } else if (evt.target.classList.contains('picture__img')) {
+      clickedPhoto = evt.target.parentElement;
+    } else if (evt.target.classList.contains('picture__info')) {
+      clickedPhoto = evt.target.parentElement;
+    } else if (evt.target.parentElement.classList.contains('picture__info')) {
+      clickedPhoto = evt.target.parentElement.parentElement;
+    }
+
+    if (clickedPhoto) {
+      var id = Number(clickedPhoto.querySelector('img').dataset.id);
+      var targetPicture = pictures.find(function (picture) {
+        return picture.id === id;
+      });
+
+      window.bigPicture.create(targetPicture);
+    }
+  };
+
   var successHandler = function (data) {
     pictures = data;
 
@@ -18,27 +39,6 @@
 
     imageFilters.classList.remove('img-filters--inactive');
     window.filter.setBasic(pictures);
-
-    var bigPictureOpenHandler = function (evt) {
-      if (evt.target.classList.contains('picture')) {
-        var clickedPhoto = evt.target;
-      } else if (evt.target.classList.contains('picture__img')) {
-        clickedPhoto = evt.target.parentElement;
-      } else if (evt.target.classList.contains('picture__info')) {
-        clickedPhoto = evt.target.parentElement;
-      } else if (evt.target.parentElement.classList.contains('picture__info')) {
-        clickedPhoto = evt.target.parentElement.parentElement;
-      }
-
-      if (clickedPhoto) {
-        var id = Number(clickedPhoto.querySelector('img').dataset.id);
-        var targetPicture = pictures.find(function (picture) {
-          return picture.id === id;
-        });
-
-        window.bigPicture.create(targetPicture);
-      }
-    };
 
     picturesContainer.addEventListener('click', bigPictureOpenHandler);
     picturesContainer.addEventListener('keydown', function (evt) {
@@ -75,6 +75,7 @@
     });
     basicFilter.classList.add('img-filters__button--active');
   });
+
   randomFilter.addEventListener('click', function () {
     window.debounce(function () {
       window.filter.setRandom(pictures);
@@ -87,6 +88,7 @@
     });
     randomFilter.classList.add('img-filters__button--active');
   });
+
   discussedFilter.addEventListener('click', function () {
     window.debounce(function () {
       window.filter.setDiscussed(pictures);

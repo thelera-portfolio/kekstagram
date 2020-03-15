@@ -11,7 +11,7 @@
   var scaleUp = imageUploadForm.querySelector('.scale__control--bigger');
   var scaleDown = imageUploadForm.querySelector('.scale__control--smaller');
   var scaleInput = imageUploadForm.querySelector('.scale__control--value');
-  var imageUpload = document.querySelector('.img-upload__preview').querySelector('img');
+  var imageUpload = document.querySelector('.img-upload__preview img');
 
   scaleInput.value = Scale.DEFAULT + '%';
 

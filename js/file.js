@@ -5,7 +5,8 @@
 
   var uploadFile = document.querySelector('#upload-file');
   var imageUpload = document.querySelector('.img-upload__overlay');
-  var image = document.querySelector('.img-upload__preview').querySelector('img');
+  var image = document.querySelector('.img-upload__preview img');
+  var imagesPreview = document.querySelectorAll('.effects__preview');
   var imageUploadCancel = document.querySelector('.img-upload__cancel');
   var hashtagInput = document.querySelector('.text__hashtags');
   var commentInput = document.querySelector('.text__description');
@@ -21,8 +22,11 @@
     if (matches) {
       var reader = new FileReader();
 
-      reader.addEventListener('load', function () {
+      reader.addEventListener('load', function (evt) {
         picture.src = reader.result;
+        Array.from(imagesPreview).forEach(function (preview) {
+          preview.style.backgroundImage = 'url(' + evt.target.result + ')';
+        });
       });
       reader.readAsDataURL(file);
     }
@@ -34,6 +38,7 @@
     imageUpload.classList.remove('hidden');
     document.body.classList.add('modal-open');
 
+    window.form.reset();
     window.effect.reset();
     window.scale.reset();
 
