@@ -3,7 +3,6 @@
 // отрисовка увеличенного изображения
 (function () {
   var MAX_COMMENTS_QUANTITY = 5;
-  var SHOWED_COMMENTS_MATCH_EXPRESSION = /^\S+/;
 
   var bigPicture = document.querySelector('.big-picture');
   var bigPictureImage = bigPicture.querySelector('.big-picture__img img');
@@ -49,7 +48,7 @@
 
   var changeShowedCommentsQuantity = function (showedComments) {
     var commentText = bigPictureSocialCommentsCount.innerHTML;
-    bigPictureSocialCommentsCount.innerHTML = commentText.replace(SHOWED_COMMENTS_MATCH_EXPRESSION, showedComments);
+    bigPictureSocialCommentsCount.innerHTML = commentText.replace(/^\S+/, showedComments);
   };
 
   window.bigPicture = {

@@ -62,43 +62,33 @@
 
   window.backend.load(successHandler, errorHandler);
 
+  var setFilter = function (filter, evt) {
+    window.debounce(function () {
+      filter(pictures);
+    });
+
+    Array.from(imageFilterButtons).forEach(function (button) {
+      if (button.classList.contains('img-filters__button--active')) {
+        button.classList.remove('img-filters__button--active');
+      }
+    });
+    evt.target.classList.add('img-filters__button--active');
+  };
+
   // обработчики кнопок фильтрации объявлений
-  basicFilter.addEventListener('click', function () {
-    window.debounce(function () {
-      window.filter.setBasic(pictures);
-    });
-
-    Array.from(imageFilterButtons).forEach(function (button) {
-      if (button.classList.contains('img-filters__button--active')) {
-        button.classList.remove('img-filters__button--active');
-      }
-    });
-    basicFilter.classList.add('img-filters__button--active');
+  basicFilter.addEventListener('click', function (evt) {
+    if (!evt.target.classList.contains('img-filters__button--active')) {
+      setFilter(window.filter.setBasic, evt);
+    }
   });
 
-  randomFilter.addEventListener('click', function () {
-    window.debounce(function () {
-      window.filter.setRandom(pictures);
-    });
-
-    Array.from(imageFilterButtons).forEach(function (button) {
-      if (button.classList.contains('img-filters__button--active')) {
-        button.classList.remove('img-filters__button--active');
-      }
-    });
-    randomFilter.classList.add('img-filters__button--active');
+  randomFilter.addEventListener('click', function (evt) {
+    setFilter(window.filter.setRandom, evt);
   });
 
-  discussedFilter.addEventListener('click', function () {
-    window.debounce(function () {
-      window.filter.setDiscussed(pictures);
-    });
-
-    Array.from(imageFilterButtons).forEach(function (button) {
-      if (button.classList.contains('img-filters__button--active')) {
-        button.classList.remove('img-filters__button--active');
-      }
-    });
-    discussedFilter.classList.add('img-filters__button--active');
+  discussedFilter.addEventListener('click', function (evt) {
+    if (!evt.target.classList.contains('img-filters__button--active')) {
+      setFilter(window.filter.setDiscussed, evt);
+    }
   });
 })();

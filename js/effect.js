@@ -55,7 +55,7 @@
     }
 
     window.effect.setDepth(ENTRY_LEVEL_DEPTH, evt.target.value);
-    window.slider.setEffectLevel(ENTRY_LEVEL_DEPTH, evt.target.value);
+    window.slider.setEffectLevel(ENTRY_LEVEL_DEPTH, evt.target.valueпше);
   };
 
   effectButtons.forEach(function (button) {
