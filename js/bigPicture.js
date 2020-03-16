@@ -37,9 +37,13 @@
 
   var showComments = function (picture, startIndex) {
     var showedComments = picture.comments.slice(startIndex, startIndex + MAX_COMMENTS_QUANTITY);
+    var fragment = document.createDocumentFragment();
+
     showedComments.forEach(function (comment) {
-      bigPictureSocialComments.appendChild(createComment(comment));
+      fragment.appendChild(createComment(comment));
     });
+
+    bigPictureSocialComments.appendChild(fragment);
 
     if (bigPictureSocialComments.children.length === picture.comments.length) {
       bigPictureMoreComments.classList.add('hidden');

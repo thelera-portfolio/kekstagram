@@ -8,8 +8,8 @@
     MAX_QUANTITY: 5
   };
 
+  var COMMENT_MAX_LENGTH = 140;
   var ERROR_MESSAGE = 'Ошибка загрузки файла. ';
-  var ESC_KEY = 'Escape';
   var ERROR_BORDER_STYLE = '0 0 3px 3px #ff0000';
 
   var mainContent = document.querySelector('main');
@@ -67,7 +67,7 @@
 
   commentInput.addEventListener('input', function () {
     commentInput.removeAttribute('style');
-    if (commentInput.value.length > 140) {
+    if (commentInput.value.length > COMMENT_MAX_LENGTH) {
       commentInput.setCustomValidity('Длина комментария не может составлять больше 140 символов');
     } else {
       commentInput.setCustomValidity('');
@@ -84,7 +84,7 @@
   };
 
   var successAnswerPopupEscButtonHandler = function (evt) {
-    if (evt.key === ESC_KEY) {
+    if (window.utils.isKeyPressed.escape(evt)) {
       mainContent.removeChild(successAnswerPopup);
 
       document.removeEventListener('keydown', successAnswerPopupEscButtonHandler);
@@ -110,7 +110,7 @@
   };
 
   var errorPopupEscButtonHandler = function (evt) {
-    if (evt.key === ESC_KEY) {
+    if (window.utils.isKeyPressed.escape(evt)) {
       mainContent.removeChild(errorPopup);
 
       document.removeEventListener('click', errorPopupClickHandler);
